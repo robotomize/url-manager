@@ -8,7 +8,7 @@ test-integration:
 
 build:
 	go build -trimpath -ldflags "-s -w -X main.BuildName=${BUILD_NAME} -X main.BuildTag=${BUILD_TAG}" -o \
-	bin/urlmanager ./cmd/url-manager
+	bin/url-manager ./cmd/url-manager
 
 .PHONY: test
 test:

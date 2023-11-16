@@ -11,11 +11,11 @@ COPY . .
 
 RUN go build \
   -trimpath \
-  -ldflags "-s -w -X main.BuildTag=$(git describe --tags --abbrev=0) -X main.BuildName=urlmanager -extldflags '-static'" \
-  -o /bin/urlmanager \
+  -ldflags "-s -w -X main.BuildTag=$(git describe --tags --abbrev=0) -X main.BuildName=url-manager -extldflags '-static'" \
+  -o /bin/url-manager \
   ./cmd/url-manager
 
 FROM scratch
-COPY --from=builder /bin/urlmanager /bin/urlmanager
+COPY --from=builder /bin/url-manager /bin/url-manager
 
-ENTRYPOINT ["/bin/urlmanager"]
+ENTRYPOINT ["/bin/url-manager"]

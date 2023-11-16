@@ -4,7 +4,7 @@ before:
 builds:
   - id: urlmanager
     main: ./cmd/url-manager
-    binary: urlmanager
+    binary: url-manager
     env:
       - CGO_ENABLED=0
       - GO111MODULE=on
@@ -14,12 +14,12 @@ builds:
       - windows
       - darwin
     ldflags:
-      - -s -w -X main.BuildName=urlmanager -X main.BuildTag={{.Version}} -extldflags '-static'
+      - -s -w -X main.BuildName=url-manager -X main.BuildTag={{.Version}} -extldflags '-static'
 
 archives:
-  - id: urlmanager
+  - id: url-manager
     builds:
-      - urlmanager
+      - url-manager
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
