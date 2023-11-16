@@ -31,6 +31,7 @@ func TestReader_ReadURL(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
+		tc := tc
 		t.Run(
 			tc.name, func(t *testing.T) {
 				t.Parallel()
@@ -38,7 +39,6 @@ func TestReader_ReadURL(t *testing.T) {
 				r := New(strings.NewReader(tc.input))
 
 				line, err := r.ReadURL()
-
 				if err != nil {
 					if tc.expectedErr == nil || err.Error() != tc.expectedErr.Error() {
 						t.Errorf("expected: %v, got: %v", tc.expectedErr, err)

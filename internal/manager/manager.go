@@ -127,7 +127,7 @@ func (m *Manager) poolHandler(ctx context.Context, wg *sync.WaitGroup) {
 		}
 
 		if _, err := m.printer.OutputEntry(
-			ch.String(), resp.ContentLength, resp.StatusCode, resp.Status, resp.Ts,
+			ch.String(), resp.ContentLength, resp.StatusCode, resp.Status, resp.TS,
 		); err != nil {
 			m.logger.Error("print error: ", err.Error())
 			continue

@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"gitlab.com/robotomize/url-manager/internal/urlchecker"
+	"github.com/robotomize/url-manager/internal/urlchecker"
 )
 
 type reader interface {

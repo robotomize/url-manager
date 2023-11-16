@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"flag"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -12,11 +11,11 @@ import (
 	"syscall"
 	"time"
 
-	"gitlab.com/robotomize/url-manager/internal/httputil"
-	"gitlab.com/robotomize/url-manager/internal/manager"
-	"gitlab.com/robotomize/url-manager/internal/printer"
-	"gitlab.com/robotomize/url-manager/internal/urlchecker"
-	"gitlab.com/robotomize/url-manager/internal/urlreader"
+	"github.com/robotomize/url-manager/internal/httputil"
+	"github.com/robotomize/url-manager/internal/manager"
+	"github.com/robotomize/url-manager/internal/printer"
+	"github.com/robotomize/url-manager/internal/urlchecker"
+	"github.com/robotomize/url-manager/internal/urlreader"
 )
 
 var (
@@ -36,12 +35,7 @@ func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
 
-	d, err := setup()
-	if err != nil {
-		fmt.Printf("Unhandler error")
-		os.Exit(1)
-		return
-	}
+	d := setup()
 
 	l := d.logger
 	if source == "" {
@@ -57,21 +51,22 @@ func main() {
 		case errors.Is(err, os.ErrPermission):
 			l.Error("Source file permission error")
 		default:
-			l.Error("Open file error: ", err.Error())
+			l.Error("Open file error:", err)
 		}
 		return
 	}
 
 	r := urlreader.New(f)
-	var opts []manager.Option
+
+	opts := make([]manager.Option, 0)
 	if sync {
 		opts = append(opts, manager.WithParallelNum(1))
 	}
 
-	m := manager.New(r, l, d.urlChecker, d.printer)
+	m := manager.New(r, l, d.urlChecker, d.printer, opts...)
 	if err := m.Run(ctx); err != nil {
 		if !errors.Is(err, context.Canceled) {
-			l.Error("process error: ", err.Error())
+			l.Error("process error:", err)
 		}
 	}
 }
@@ -83,7 +78,7 @@ type deps struct {
 	urlChecker urlchecker.Checker
 }
 
-func setup() (*deps, error) {
+func setup() *deps {
 	const (
 		defaultClientTimeout = 10 * time.Second
 		defaultRetryCount    = 3
@@ -122,5 +117,5 @@ func setup() (*deps, error) {
 	d.printer = stdoutPrinter
 	d.logger = textLogger
 
-	return d, nil
+	return d
 }

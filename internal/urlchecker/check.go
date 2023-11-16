@@ -13,7 +13,7 @@ type Response struct {
 	StatusCode    int
 	Status        string
 	ContentLength int64
-	Ts            time.Duration
+	TS            time.Duration
 }
 
 type Checker interface {
@@ -61,7 +61,7 @@ func (m *checker) Check(ctx context.Context, u string) (Response, error) {
 	result.ContentLength = n
 	result.StatusCode = resp.StatusCode
 	result.Status = resp.Status
-	result.Ts = time.Since(ts)
+	result.TS = time.Since(ts)
 
 	return result, nil
 }

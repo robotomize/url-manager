@@ -7,6 +7,8 @@ import (
 )
 
 func TestExponentialBackoff(t *testing.T) {
+	t.Parallel()
+
 	testCases := []struct {
 		name     string
 		min      time.Duration
@@ -39,6 +41,7 @@ func TestExponentialBackoff(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
+		tc := tc
 		t.Run(
 			tc.name, func(t *testing.T) {
 				t.Parallel()

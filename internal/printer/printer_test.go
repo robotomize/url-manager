@@ -23,6 +23,8 @@ func (m *mockErrorWriter) Write(p []byte) (n int, err error) {
 }
 
 func TestPrinterOutputEntry(t *testing.T) {
+	t.Parallel()
+
 	mw := &mockWriter{}
 	p := New(mw)
 	url := "https://example.com"
@@ -51,6 +53,8 @@ func TestPrinterOutputEntry(t *testing.T) {
 }
 
 func TestPrinterOutputValidationError(t *testing.T) {
+	t.Parallel()
+
 	mw := &mockWriter{}
 	p := New(mw)
 	url := "https://example.com"
@@ -71,6 +75,8 @@ func TestPrinterOutputValidationError(t *testing.T) {
 }
 
 func TestPrinterError(t *testing.T) {
+	t.Parallel()
+
 	p := printer{w: &mockErrorWriter{}}
 	url := "https://example.com"
 	contentLength := int64(1024)
