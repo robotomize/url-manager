@@ -52,11 +52,6 @@ jobs:
       - name: Make test cover
         run: make test-cover
 
-      - name: Upload coverage report
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./coverage.out
-
   lint:
     needs: build-tools
     runs-on: ubuntu-latest
