@@ -1,6 +1,6 @@
 # url manager
 
-A console application for fetch url from file
+The console application for fetching urls from file
 
 ## Install
 
