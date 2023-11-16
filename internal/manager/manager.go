@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/url"
 	"runtime"
+	"strings"
 	"sync"
 )
 
@@ -72,6 +73,8 @@ func (m *Manager) Run(ctx context.Context) error {
 		}
 
 		m.logger.Debug(fmt.Sprintf("read line url %s", inputStr))
+
+		inputStr = strings.TrimSpace(inputStr)
 
 		u, ok := ValidateURL(inputStr)
 		if !ok {
