@@ -1,6 +1,4 @@
-# url-manager
-
-## Test exam
+# url manager
 
 A console application for fetch url from file
 
