@@ -41,7 +41,7 @@ func init() {
 		"debug logging",
 	)
 	rootCmd.PersistentFlags().BoolVarP(
-		&debug,
+		&sync,
 		"sync",
 		"c",
 		false,

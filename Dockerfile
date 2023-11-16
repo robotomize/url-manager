@@ -16,6 +16,7 @@ RUN go build \
   ./cmd/url-manager
 
 FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /bin/url-manager /bin/url-manager
 
 ENTRYPOINT ["/bin/url-manager"]
