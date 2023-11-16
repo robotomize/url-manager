@@ -2,7 +2,7 @@ before:
   hooks:
     - go mod tidy
 builds:
-  - id: urlmanager
+  - id: url-manager
     main: ./cmd/url-manager
     binary: url-manager
     env:

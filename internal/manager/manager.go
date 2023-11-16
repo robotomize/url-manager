@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/url"
 	"runtime"
 	"sync"
@@ -56,7 +57,7 @@ func (m *Manager) Run(ctx context.Context) error {
 
 	for {
 		if err := ctx.Err(); err != nil {
-			m.logger.Debug("context err", err.Error())
+			m.logger.Debug("context err", slog.Any("err", err.Error()))
 			return err
 		}
 
@@ -66,7 +67,7 @@ func (m *Manager) Run(ctx context.Context) error {
 				break
 			}
 
-			m.logger.Error("read url error: ", err.Error())
+			m.logger.Error("read url error:", slog.Any("err", err.Error()))
 			continue
 		}
 
@@ -75,7 +76,7 @@ func (m *Manager) Run(ctx context.Context) error {
 		u, ok := ValidateURL(inputStr)
 		if !ok {
 			if _, err := m.printer.OutputValidationError(u.String()); err != nil {
-				m.logger.Error("print error: ", err.Error())
+				m.logger.Error("print error:", slog.Any("err", err.Error()))
 				continue
 			}
 			m.logger.Debug(fmt.Sprintf("line with url %s is invalid", u.String()))
@@ -122,14 +123,14 @@ func (m *Manager) poolHandler(ctx context.Context, wg *sync.WaitGroup) {
 
 		resp, err := m.fetcher.Check(ctx, ch.String())
 		if err != nil {
-			m.logger.Error("url check error: ", err.Error())
+			m.logger.Error("url check error:", slog.Any("err", err.Error()))
 			continue
 		}
 
 		if _, err := m.printer.OutputEntry(
 			ch.String(), resp.ContentLength, resp.StatusCode, resp.Status, resp.TS,
 		); err != nil {
-			m.logger.Error("print error: ", err.Error())
+			m.logger.Error("print error:", slog.Any("err", err.Error()))
 			continue
 		}
 	}
